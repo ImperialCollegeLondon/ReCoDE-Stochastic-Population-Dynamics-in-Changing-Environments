@@ -1,136 +1,118 @@
+from cells import *
 import numpy as np
+from sklearn.linear_model import LinearRegression
+import pandas as pd
 import matplotlib.pyplot as plt
 
-def init_cell(cell_id, born_time, expected_division_time, is_alive):
+class Game:
     """
-    Initializes a cell with its properties.
-
-    Parameters:
-    cell_id (int): Unique identifier for the cell.
-    born_time (float): Time when the cell is created.
-    expected_division_time (float): Time at which the cell is expected to divide.
-    is_alive (bool): Status indicating if the cell is active/alive.
-
-    Returns:
-    list: A list representing the cell [id, born_time, division_time, is_alive].
+    Simulates the lifecycle of cells, including division and death, and tracks population dynamics.
     """
-    return [cell_id, born_time, expected_division_time, is_alive]
 
+    def __init__(self, name, s_func, l_func):
+        """
+        Initializes the simulation with a single cell and the specified functions for division time and lifetime.
 
-def time_independent_sample():
-    """
-    Generates a random sample for the division time of a cell using a gamma distribution.
+        Parameters:
+            name (str): Name of the simulation.
+            s_func (function): Function to calculate the division time of a cell.
+            l_func (function): Function to calculate the lifetime of a cell.
+        """
+        first_cell = init_cell(0, 0, l_func(0), s_func(0))
+        self.name = name
+        self.cells = [first_cell]  # List of all cells
+        self.log = []  # Event log
+        self.s_func = s_func  # Function for division time
+        self.l_func = l_func  # Function for lifetime
+        self.epoch = 0  # Simulation step counter
 
-    Returns:
-    float: A random sample representing the division time.
-    """
-    x = np.random.gamma(5, 1)  # Shape=5, Scale=1
-    return x
+    def sget(self, time):
+        """Calculates the absolute division time given a starting time."""
+        return time + self.s_func(time)
 
+    def lget(self, time):
+        """Calculates the absolute lifetime given a starting time."""
+        return time + self.l_func(time)
 
-def time_independent_divise(cell_list, cell_id):
-    """
-    Handles the division of a specific cell, creating two new cells.
+    def divide(self, cell):
+        """
+        Handles the division of a cell by deactivating it and creating two new daughter cells.
 
-    Parameters:
-    cell_list (list): List of all cells.
-    cell_id (int): ID of the cell to be divided.
+        Parameters:
+            cell (Cell): The cell that is dividing.
+        """
+        disactivate_cell(cell)
 
-    Behavior:
-    - Marks the parent cell as inactive (`is_alive = False`).
-    - Creates two new daughter cells with updated IDs and division times.
-    """
-    # Find the target cell to divide
-    target_cell = cell_list[cell_id]
+        division_time = cell.division_time
+        new_cell1 = init_cell(
+            cell_id=len(self.cells),
+            born_time=division_time,
+            life_time=self.lget(division_time),
+            division_time=self.sget(division_time)
+        )
+        new_cell2 = init_cell(
+            cell_id=len(self.cells) + 1,
+            born_time=division_time,
+            life_time=self.lget(division_time),
+            division_time=self.sget(division_time)
+        )
+        self.cells.extend([new_cell1, new_cell2])
 
-    # Deactivate the parent cell
-    target_cell[3] = False
+    def log_event(self, time, cell_id, operation):
+        """
+        Logs an event (division or death) in the simulation.
 
-    # Generate two new cells
-    N = len(cell_list)
-    new_cell1 = init_cell(N, target_cell[2], target_cell[2] + time_independent_sample(), True)
-    new_cell2 = init_cell(N + 1, target_cell[2], target_cell[2] + time_independent_sample(), True)
+        Parameters:
+            time (float): The time at which the event occurred.
+            cell_id (int): The ID of the cell involved in the event.
+            operation (str): The type of event ('division' or 'death').
+        """
+        # todo
+        self.log.append({
+            "time": time,
+            "cell_id": cell_id,
+            "operation": operation
+        })
 
-    # Append the new cells to the cell list
-    cell_list.append(new_cell1)
-    cell_list.append(new_cell2)
+    def find_next_event(self):
+        """
+        Finds the next event (division or death) and the cell associated with it.
 
+        Returns:
+            tuple: (time of the event, cell involved, type of event).
+        """
+        next_time = float("inf")
+        next_cell = None
+        operation = "pass"
 
-def find_next_divise_cell(cell_list):
-    """
-    Identifies the next cell to divide based on the earliest division time.
+        for cell in self.cells:
+            if not cell.is_alive:
+                continue
 
-    Parameters:
-    cell_list (list): List of all cells.
+            # Check death time
+            if cell.life_time < next_time:
+                next_time = cell.life_time
+                next_cell = cell
+                operation = "death"
 
-    Returns:
-    int: The ID of the cell with the earliest division time.
-    """
-    minimal = np.inf  # Initialize with infinity for comparison
-    cell_id = -1      # Default cell ID if no cell is found
+            # Check division time
+            if cell.will_divide and cell.division_time < next_time:
+                next_time = cell.division_time
+                next_cell = cell
+                operation = "division"
 
-    # Iterate over cells to find the one with the earliest division time
-    for cell in cell_list:
-        if cell[3]:  # Only consider active cells
-            if cell[2] <= minimal:
-                minimal = cell[2]
-                cell_id = cell[0]
+        return next_time, next_cell, operation
 
-    return cell_id
+    def run(self):
+        """Executes one step of the simulation by processing the next event."""
+        self.epoch += 1
+        next_time, next_cell, operation = self.find_next_event()
+        if operation == "pass":
+            return  # No events left to process
+        if operation == "death":
+            disactivate_cell(next_cell)
+            self.log_event(next_time, next_cell.cell_id, "death")
+        elif operation == "division":
+            self.divide(next_cell)
+            self.log_event(next_time, next_cell.cell_id, "division")
 
-
-def time_independent_run(cell_list):
-    """
-    Executes one step of the simulation: finds the next cell to divide and performs division.
-
-    Parameters:
-    cell_list (list): List of all cells.
-
-    Returns:
-    list: Updated list of cells after the division.
-    """
-    # Find the next cell to divide
-    next_divise_cell_id = find_next_divise_cell(cell_list)
-
-    # Perform division for the identified cell
-    time_independent_divise(cell_list, next_divise_cell_id)
-
-    return cell_list
-
-
-def time_independent_main():
-    """
-    Main simulation function to model cell division.
-
-    Behavior:
-    - Initializes the simulation with a single cell.
-    - Runs the division process for a fixed number of iterations (600).
-    - Prints the state of the cell list for the first 5 iterations for debugging.
-
-    Returns:
-    list: The final list of cells after all iterations.
-    """
-    # Initialize the cell list with the first cell
-    cell_list = []
-    first_cell = init_cell(0, 0, time_independent_sample(), True)
-    cell_list.append(first_cell)
-
-    # Run the simulation for 600 iterations
-    for _ in range(600):
-        if _ < 5:  # Print the cell list for the first 5 iterations
-            print(cell_list)
-
-        # Execute one step of the simulation
-        time_independent_run(cell_list)
-
-    return cell_list
-
-
-# Example usage:
-# Run the simulation and observe the results
-if __name__ == "__main__":
-    final_cell_list = time_independent_main()
-
-    # Print the total number of cells and a sample cell for analysis
-    print("Total cells:", len(final_cell_list))
-    print("Sample cell:", final_cell_list[0])  # Details of the first cell
