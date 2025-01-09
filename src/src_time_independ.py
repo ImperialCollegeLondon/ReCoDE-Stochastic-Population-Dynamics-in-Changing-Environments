@@ -1,38 +1,34 @@
-from cells import *
-import numpy as np
-from sklearn.linear_model import LinearRegression
-import pandas as pd
-import matplotlib.pyplot as plt
+from cells_manage import init_normal_cell, deactivate_cell
 
-class Game:
+class Simulation:
     """
     Simulates the lifecycle of cells, including division and death, and tracks population dynamics.
     """
 
-    def __init__(self, name, s_func, l_func):
+    def __init__(self, name, division_func, lifetime_func):
         """
         Initializes the simulation with a single cell and the specified functions for division time and lifetime.
 
         Parameters:
             name (str): Name of the simulation.
-            s_func (function): Function to calculate the division time of a cell.
-            l_func (function): Function to calculate the lifetime of a cell.
+            division_func (function): Function to calculate the division time of a cell.
+            lifetime_func (function): Function to calculate the lifetime of a cell.
         """
-        first_cell = init_cell(0, 0, l_func(0), s_func(0))
+        first_cell = init_normal_cell(0, 0, lifetime_func, division_func)
         self.name = name
         self.cells = [first_cell]  # List of all cells
         self.log = []  # Event log
-        self.s_func = s_func  # Function for division time
-        self.l_func = l_func  # Function for lifetime
+        self.division_func = division_func  # Function for division time
+        self.lifetime_func = lifetime_func  # Function for lifetime
         self.epoch = 0  # Simulation step counter
 
     def sget(self, time):
         """Calculates the absolute division time given a starting time."""
-        return time + self.s_func(time)
+        return time + self.division_func(time)
 
     def lget(self, time):
         """Calculates the absolute lifetime given a starting time."""
-        return time + self.l_func(time)
+        return time + self.lifetime_func(time)
 
     def divide(self, cell):
         """
@@ -41,21 +37,23 @@ class Game:
         Parameters:
             cell (Cell): The cell that is dividing.
         """
-        disactivate_cell(cell)
-
+        deactivate_cell(cell)
         division_time = cell.division_time
-        new_cell1 = init_cell(
+
+        new_cell1 = init_normal_cell(
             cell_id=len(self.cells),
             born_time=division_time,
-            life_time=self.lget(division_time),
-            division_time=self.sget(division_time)
+            life_time_func=self.lifetime_func,
+            division_time_func=self.division_func
         )
-        new_cell2 = init_cell(
+
+        new_cell2 = init_normal_cell(
             cell_id=len(self.cells) + 1,
             born_time=division_time,
-            life_time=self.lget(division_time),
-            division_time=self.sget(division_time)
+            life_time_func=self.lifetime_func,
+            division_time_func=self.division_func
         )
+
         self.cells.extend([new_cell1, new_cell2])
 
     def log_event(self, time, cell_id, operation):
@@ -110,7 +108,7 @@ class Game:
         if operation == "pass":
             return  # No events left to process
         if operation == "death":
-            disactivate_cell(next_cell)
+            deactivate_cell(next_cell)
             self.log_event(next_time, next_cell.cell_id, "death")
         elif operation == "division":
             self.divide(next_cell)
