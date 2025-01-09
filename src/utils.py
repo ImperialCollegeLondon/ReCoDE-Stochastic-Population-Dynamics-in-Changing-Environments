@@ -62,7 +62,7 @@ def fixed_lifetime(born_time, lifetime_constant=1e4):
     return born_time + lifetime_constant
 
 
-def exponential_lifetime(born_time, mean_lifetime=50.0):
+def exponential_lifetime(born_time, mean_lifetime=10.0):
     """
     Generates a lifetime sampled from an exponential distribution.
 

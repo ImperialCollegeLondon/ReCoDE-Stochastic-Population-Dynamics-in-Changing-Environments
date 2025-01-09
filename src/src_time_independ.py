@@ -1,5 +1,6 @@
 from cells_manage import init_normal_cell, deactivate_cell
 
+
 class Simulation:
     """
     Simulates the lifecycle of cells, including division and death, and tracks population dynamics.
@@ -114,3 +115,14 @@ class Simulation:
             self.divide(next_cell)
             self.log_event(next_time, next_cell.cell_id, "division")
 
+    def get_time_population_curve(self):
+        lst = [[0, 1]]
+        N = 1
+        for e in self.log:
+            if e['operation'] == 'division':
+                N += 1
+                lst.append([e['time'], N])
+            if e['operation'] == 'death':
+                N -= 1
+                lst.append([e['time'], N])
+        return lst
