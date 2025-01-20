@@ -1,6 +1,5 @@
 from cells_manage import init_normal_cell, deactivate_cell
 
-
 class Simulation:
     """
     Simulates the lifecycle of cells, including division and death, and tracks population dynamics.
