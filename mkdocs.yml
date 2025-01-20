@@ -45,6 +45,7 @@ plugins:
 
 # Set settings for markdown extensions
 markdown_extensions:
+  - pymdownx.arithmatex
   - meta
   - mdx_math:
       enable_dollar_delimiter: True
@@ -56,4 +57,5 @@ markdown_extensions:
 
 # Render math in mkdocs
 extra_javascript:
+  - https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js
   - https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML
