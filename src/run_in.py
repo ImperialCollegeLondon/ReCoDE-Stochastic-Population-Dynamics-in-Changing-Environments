@@ -3,17 +3,17 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
 from utils import cos_sample, exponential_lifetime, fixed_lifetime
-from src_time_independ import Simulation
+from simulation import Simulation
 
 
-def single_run(epoch, division_func, lifetime_func):
+def single_run(epoch: int, division_func: callable, lifetime_func: callable) -> Simulation:
     """
     Runs a single simulation and returns the Simulation object.
 
-    Parameters:
+    Args:
         epoch (int): Number of steps to run the simulation.
-        division_func (function): Function to determine division times.
-        lifetime_func (function): Function to determine lifetime of cells.
+        division_func (callable): Function to determine division times.
+        lifetime_func (callable): Function to determine lifetime of cells.
 
     Returns:
         Simulation: The simulation object after running the epochs.
@@ -24,15 +24,15 @@ def single_run(epoch, division_func, lifetime_func):
     return sim
 
 
-def multi_run(epoch, num_runs, division_func, lifetime_func):
+def multi_run(epoch: int, num_runs: int, division_func: callable, lifetime_func: callable) -> list[Simulation]:
     """
     Runs multiple simulations and collects results.
 
-    Parameters:
+    Args:
         epoch (int): Number of steps to run each simulation.
         num_runs (int): Number of simulations to run.
-        division_func (function): Function to determine division times.
-        lifetime_func (function): Function to determine lifetime of cells.
+        division_func (callable): Function to determine division times.
+        lifetime_func (callable): Function to determine lifetime of cells.
 
     Returns:
         list: List of Simulation objects from the runs.
@@ -44,11 +44,11 @@ def multi_run(epoch, num_runs, division_func, lifetime_func):
     return sims
 
 
-def plot_population_dynamics(sim):
+def plot_population_dynamics(sim: Simulation) -> None:
     """
     Plots the number of alive cells over time for a single simulation.
 
-    Parameters:
+    Args:
         sim (Simulation): The simulation object containing the results.
     """
     # Extract data
@@ -67,11 +67,11 @@ def plot_population_dynamics(sim):
     plt.show()
 
 
-def log_population_regression(sim):
+def log_population_regression(sim: Simulation) -> None:
     """
     Performs log regression on the population dynamics and visualizes the results.
 
-    Parameters:
+    Args:
         sim (Simulation): The simulation object containing the results.
     """
     # Extract data
@@ -95,11 +95,11 @@ def log_population_regression(sim):
     plt.show()
 
 
-def compare_multi_runs(simulations):
+def compare_multi_runs(simulations: list[Simulation]) -> None:
     """
     Compares the population dynamics from multiple simulation runs.
 
-    Parameters:
+    Args:
         simulations (list): List of Simulation objects.
     """
     plt.figure(figsize=(14, 8))
