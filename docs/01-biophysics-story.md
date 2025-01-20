@@ -14,9 +14,9 @@ The biophysics of population dynamics involves understanding how individual cell
 
 3. **Biotechnological Applications:** In synthetic biology and tissue engineering, controlling cell population growth is critical. Whether growing cell cultures or managing engineered organisms, it is essential to predict and guide population behaviors under varying conditions.
 
-### Objectives of This Notebook
+### Objectives of This Exemplar
 
-This notebook focuses on simulating and analyzing cell population dynamics under two key scenarios: 
+This exemplar focuses on simulating and analyzing cell population dynamics under two key scenarios: 
 
 1. **Time-Independent Environment:** In this scenario, the division rate \(\gamma(\tau)\) and death rate \(\delta(\tau)\) depend only on the age of cells but remain constant over time. We study the population's growth rate and the probability of extinction using mathematical techniques like separation of variables and numerical simulations.
 
