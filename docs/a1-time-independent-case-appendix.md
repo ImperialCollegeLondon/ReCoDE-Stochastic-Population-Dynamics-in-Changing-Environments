@@ -1,3 +1,5 @@
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js"></script>
+
 # Appendix 1 - Mathematical Analysis for the Time-Independent Case
 
 ## Problem Definition
@@ -8,7 +10,7 @@ equation governing the population dynamics is:
 
 \[
 \begin{aligned}
-\left(\partial_t + \pZartial_\tau\right) n(\tau, t) &= -\left(\gamma(\tau) + \delta(\tau)\right) n(\tau, t), \\
+\left(\partial_t + \partial_\tau\right) n(\tau, t) &= -\left(\gamma(\tau) + \delta(\tau)\right) n(\tau, t), \\
 n(0, t) &= 2 \int_0^\infty \gamma(\tau) n(\tau, t) \, d\tau.
 \end{aligned}
 \]
