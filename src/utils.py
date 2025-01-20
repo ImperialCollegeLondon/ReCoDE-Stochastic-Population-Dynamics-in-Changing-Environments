@@ -13,7 +13,7 @@ def uniform_sample(born_time):
     """
     low = 5.0  # Minimum division time
     high = 15.0  # Maximum division time
-    return born_time + np.random.uniform(low, high)
+    return np.random.uniform(low, high)
 
 
 def gamma_sample(born_time, shape=2.0, scale=5.0):
@@ -28,7 +28,7 @@ def gamma_sample(born_time, shape=2.0, scale=5.0):
     Returns:
         float: The division time, sampled from a Gamma distribution.
     """
-    return born_time + gamma.rvs(a=shape, scale=scale)
+    return gamma.rvs(a=shape, scale=scale)
 
 
 def sinusoidal_sample(born_time):
@@ -59,7 +59,7 @@ def fixed_lifetime(born_time, lifetime_constant=1e4):
     Returns:
         float: The fixed lifetime of the cell.
     """
-    return born_time + lifetime_constant
+    return lifetime_constant
 
 
 def exponential_lifetime(born_time, mean_lifetime=10.0):
@@ -73,7 +73,7 @@ def exponential_lifetime(born_time, mean_lifetime=10.0):
     Returns:
         float: The lifetime, sampled from an exponential distribution.
     """
-    return born_time + np.random.exponential(mean_lifetime)
+    return np.random.exponential(mean_lifetime)
 
 
 def cos_sample(born_time):
@@ -89,7 +89,7 @@ def cos_sample(born_time):
     """
     amplitude = 10.0  # Amplitude of the cosine wave
     baseline = 15.0  # Baseline division time
-    return born_time + baseline + amplitude * np.cos(born_time)
+    return baseline + amplitude * np.cos(born_time)
 
 
 # Example usage for testing purposes:

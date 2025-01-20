@@ -125,7 +125,7 @@ def compare_multi_runs(simulations: list[Simulation]) -> None:
 if __name__ == "__main__":
     # Define division and lifetime functions
     division_func = lambda x: exponential_lifetime(x, mean_lifetime=5.0)
-    lifetime_func = lambda x: exponential_lifetime(x, mean_lifetime=20.0)
+    lifetime_func = lambda x: exponential_lifetime(x, mean_lifetime=15.0)
 
     # Run a single simulation
     sim = single_run(epoch=200, division_func=division_func, lifetime_func=lifetime_func)
@@ -133,9 +133,9 @@ if __name__ == "__main__":
     # Visualize single simulation
     plot_population_dynamics(sim)
     log_population_regression(sim)
-    #
-    # # Run multiple simulations
-    # sims = multi_run(epoch=50, num_runs=3, division_func=division_func, lifetime_func=lifetime_func)
-    #
-    # # Compare results from multiple runs
-    # compare_multi_runs(sims)
+
+    # Run multiple simulations
+    sims = multi_run(epoch=50, num_runs=20, division_func=division_func, lifetime_func=lifetime_func)
+
+    # Compare results from multiple runs
+    compare_multi_runs(sims)
