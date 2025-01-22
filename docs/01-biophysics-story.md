@@ -26,9 +26,3 @@ Through these simulations, we aim to address critical questions in cell populati
 - How do time-dependent environments influence the growth or extinction of a population compared to time-independent ones?
 - What are the long-term growth rates under different environmental conditions?
 - Which treatment strategies are most effective for controlling harmful cell populations, such as bacteria or cancer cells?
-
-### Broader Implications
-
-This study has significant practical implications. By understanding how division and death processes interact with environmental changes, we can guide strategies for medical interventions, such as optimizing antibiotic regimens or designing more effective cancer therapies. For instance, determining whether to focus more on suppressing division or enhancing cell death could help target harmful populations more efficiently. Additionally, the relationship between fluctuating treatment periods and population dynamics could inform the timing and duration of therapeutic interventions.
-
-Ultimately, this work contributes to a deeper understanding of the interplay between cellular processes and environmental conditions, enabling more precise control of biological systems in both clinical and industrial settings.
