@@ -9,7 +9,7 @@ class Cell:
     is_alive: bool
     will_divide: bool
 
-def init_immortal_cell(cell_id: int, born_time: float, division_time_func):
+def init_immortal_cell(cell_id: int, born_time: float, division_time_func) -> Cell:
     """
     Initializes an immortal cell with its properties.
 
@@ -32,7 +32,7 @@ def init_immortal_cell(cell_id: int, born_time: float, division_time_func):
         will_divide=True
     )
 
-def init_normal_cell(cell_id: int, born_time: float, life_time_func, division_time_func):
+def init_normal_cell(cell_id: int, born_time: float, life_time_func, division_time_func) -> Cell:
     """
     Initializes a cell with its properties.
 
@@ -57,7 +57,7 @@ def init_normal_cell(cell_id: int, born_time: float, life_time_func, division_ti
         will_divide=division_time < life_time
     )
 
-def deactivate_cell(cell: Cell):
+def deactivate_cell(cell: Cell) -> None:
     """
     Disactivates a cell by marking it as inactive.
 

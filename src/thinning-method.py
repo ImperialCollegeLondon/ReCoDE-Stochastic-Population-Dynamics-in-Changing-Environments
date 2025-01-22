@@ -1,17 +1,23 @@
 import numpy as np
+from typing import Callable, List, Optional
 
-def thinning_method(intensity_func, gamma_max, start_time=0, end_time=float('inf')):
+def thinning_method(
+    intensity_func: Callable[[float], float],
+    gamma_max: float,
+    start_time: float = 0,
+    end_time: float = float('inf')
+) -> List[float]:
     """
     Simulates event times for an inhomogeneous Poisson process using the thinning method.
 
-    Parameters:
-        intensity_func (function): Intensity function γ(t), defining the rate of events at time t.
+    Args:
+        intensity_func (Callable[[float], float]): Intensity function γ(t), defining the rate of events at time t.
         gamma_max (float): Maximum value of γ(t), used for rejection sampling.
-        start_time (float): Start time of the simulation (default is 0).
-        end_time (float): End time of the simulation (default is infinity).
+        start_time (float): Start time of the simulation. Default is 0.
+        end_time (float): End time of the simulation. Default is infinity.
 
     Returns:
-        list: A list of event times sampled from the process.
+        List[float]: A list of event times sampled from the process.
     """
     current_time = start_time
     event_times = []  # List to store accepted event times
@@ -38,28 +44,30 @@ def thinning_method(intensity_func, gamma_max, start_time=0, end_time=float('inf
 
     return event_times
 
-
-def create_sampling_function(intensity_func, gamma_max):
+def create_sampling_function(
+    intensity_func: Callable[[float], float],
+    gamma_max: float
+) -> Callable[[float], Optional[float]]:
     """
     Creates a sampling function based on the thinning method for a given intensity function.
 
-    Parameters:
-        intensity_func (function): Intensity function γ(t), defining the rate of events at time t.
+    Args:
+        intensity_func (Callable[[float], float]): Intensity function γ(t), defining the rate of events at time t.
         gamma_max (float): Maximum value of γ(t), used for rejection sampling.
 
     Returns:
-        function: A sampling function that takes a 'born_time' as input and returns a sampled event time.
+        Callable[[float], Optional[float]]: A sampling function that takes a 'born_time' as input
+            and returns a sampled event time or None if no event is generated.
     """
-
-    def sampling_function(born_time):
+    def sampling_function(born_time: float) -> Optional[float]:
         """
         Samples an event time based on the intensity function, starting from the given born_time.
 
-        Parameters:
+        Args:
             born_time (float): The starting time for the sampling.
 
         Returns:
-            float: A sampled event time.
+            Optional[float]: A sampled event time, or None if no event is generated.
         """
         # Use thinning_method to generate a single event time
         events = thinning_method(

@@ -1,11 +1,13 @@
 import numpy as np
 from scipy.stats import gamma
+import numpy as np
+from scipy.stats import gamma
 
-def uniform_sample(born_time):
+def uniform_sample(born_time: float) -> float:
     """
     Generates a random division time sampled uniformly within a range.
 
-    Parameters:
+    Args:
         born_time (float): The time the cell is born.
 
     Returns:
@@ -15,28 +17,26 @@ def uniform_sample(born_time):
     high = 15.0  # Maximum division time
     return np.random.uniform(low, high)
 
-
-def gamma_sample(born_time, shape=2.0, scale=5.0):
+def gamma_sample(born_time: float, shape: float = 2.0, scale: float = 5.0) -> float:
     """
     Generates a random division time using the Gamma distribution.
 
-    Parameters:
+    Args:
         born_time (float): The time the cell is born.
-        shape (float): Shape parameter of the Gamma distribution (default is 2.0).
-        scale (float): Scale parameter of the Gamma distribution (default is 5.0).
+        shape (float): Shape parameter of the Gamma distribution. Default is 2.0.
+        scale (float): Scale parameter of the Gamma distribution. Default is 5.0.
 
     Returns:
         float: The division time, sampled from a Gamma distribution.
     """
     return gamma.rvs(a=shape, scale=scale)
 
-
-def sinusoidal_sample(born_time):
+def sinusoidal_sample(born_time: float) -> float:
     """
-    Generates a division time based on a sine wave pattern.
-    This creates periodic variations in division times.
+    Generates a division time based on a sine wave pattern. This creates periodic
+    variations in division times.
 
-    Parameters:
+    Args:
         born_time (float): The time the cell is born.
 
     Returns:
@@ -47,41 +47,38 @@ def sinusoidal_sample(born_time):
     period = 20.0  # Period of the sine wave
     return born_time + baseline + amplitude * np.sin(2 * np.pi * born_time / period)
 
-
-def fixed_lifetime(born_time, lifetime_constant=1e4):
+def fixed_lifetime(born_time: float, lifetime_constant: float = 1e4) -> float:
     """
     Defines a fixed lifetime for a cell.
 
-    Parameters:
-        born_time (float): The time the cell is born (unused here).
-        lifetime_constant (float): The constant lifetime value (default is 1e4).
+    Args:
+        born_time (float): The time the cell is born (unused).
+        lifetime_constant (float): The constant lifetime value. Default is 1e4.
 
     Returns:
         float: The fixed lifetime of the cell.
     """
     return lifetime_constant
 
-
-def exponential_lifetime(born_time, mean_lifetime=10.0):
+def exponential_lifetime(born_time: float, mean_lifetime: float = 10.0) -> float:
     """
     Generates a lifetime sampled from an exponential distribution.
 
-    Parameters:
+    Args:
         born_time (float): The time the cell is born.
-        mean_lifetime (float): The mean lifetime of the exponential distribution (default is 50.0).
+        mean_lifetime (float): The mean lifetime of the exponential distribution. Default is 10.0.
 
     Returns:
         float: The lifetime, sampled from an exponential distribution.
     """
     return np.random.exponential(mean_lifetime)
 
-
-def cos_sample(born_time):
+def cos_sample(born_time: float) -> float:
     """
     Generates a division time based on a cosine-based function for cyclic variations.
-    Note: Returns a positive value by adding an offset to ensure valid division times.
+    Adds an offset to ensure positive division times.
 
-    Parameters:
+    Args:
         born_time (float): The time the cell is born.
 
     Returns:
