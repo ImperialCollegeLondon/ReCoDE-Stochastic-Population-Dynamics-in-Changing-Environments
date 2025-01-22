@@ -4,20 +4,20 @@ To model the stochastic dynamics of cell populations under time-dependent divisi
 
 ### Stochastic Nature of Events
 
-The division and death processes are modeled as independent Poisson processes with time-varying rates:
-- Division rate: $\gamma(\tau, t)$, dependent on cell age $\tau$ and time $t$.
+For each cell, it is stochastic whether it will divide or die, and the time at which it meets this fate is also stochastic. The division and death processes are modeled as independent Poisson processes with time-varying rates:
+- Division rate: $\gamma(\tau, t)$, dependent on cell age $\tau$ and environment time $t$.
 - Death rate: $\delta(\tau, t)$, also dependent on $\tau$ and $t$.
 
 For a cell born at time $t_i$, the probability density of the next division or death event at time $t$ is given by:
 $$
 P_{\text{event}}(t) = \left[\gamma(\tau, t) + \delta(\tau, t)\right] e^{-\int_{t_i}^{t} \left[\gamma(\tau, s) + \delta(\tau, s)\right] \, ds},
 $$
-where $\tau = t - t_i$. The actual event (division or death) is determined by comparing $\gamma(\tau, t)$ and $\delta(\tau, t)$ at the sampled event time.
+where $\tau = t - t_i$. The actual event (division or death) is determined by comparing $\gamma(\tau, t)$ and $\delta(\tau, t)$ at the sampled event time. Whichever occurs sooner will determine the fate of the cell.
 
 ### Challenges in Time-Dependent Environments
 
 1. **Non-Constant Intensity Functions:** In time-dependent environments, rates $\gamma(\tau, t)$ and $\delta(\tau, t)$ vary continuously, necessitating dynamic sampling algorithms.
-2. **Continuous-Time Events:** Unlike discrete simulations, events occur at irregular intervals sampled from exponential distributions with non-uniform rates.
+2. **Continuous-Time Events:** Unlike discrete simulations, events occur at irregular intervals sampled from exponential distributions with non-uniform rates. This means the epoch-based iterated simulation using the discrete times approach is not directly applicable.
 3. **Event Selection:** For each cell, the next event is determined by comparing division and death times, adding complexity to the simulation.
 
 ### Thinning Method for Time-Dependent Rates
@@ -58,4 +58,4 @@ Newly created cells are treated as independent entities, with their division and
 
 The simulation evaluates the population growth rate $k$ and the effective initial population size parameter $b$ across thousands of events. By comparing time-dependent and time-independent environments, we study the impact of oscillatory rates and their periods on long-term population behavior. 
 
-This rigorous stochastic framework allows us to model continuous-time dynamics accurately, despite the computational complexity.
+By simulating each cell, we can determine how a population of cells evolves over time, including whether and how fast the population grows or dies out. By repeating this simulation for many processes we can obtain average values which describe the system in terms of its average behaviour and other properties.
