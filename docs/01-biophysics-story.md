@@ -18,7 +18,7 @@ The biophysics of population dynamics involves understanding how individual cell
 
 This exemplar focuses on simulating and analyzing cell population dynamics under two key scenarios: 
 
-1. **Time-Independent Environment:** In this scenario, the division rate \(\gamma(\tau)\) and death rate \(\delta(\tau)\) depend only on the age of cells but remain constant over time. We study the population's growth rate and the probability of extinction using mathematical techniques like separation of variables and numerical simulations.
+1. **Time-Independent Environment:** In this scenario, the division rate $\gamma(\tau)$ and death rate $\delta(\tau)$ depend only on the age of cells but remain constant over time. We study the population's growth rate and the probability of extinction using mathematical techniques like separation of variables and numerical simulations.
 
 2. **Time-Dependent Environment:** Here, division and death rates fluctuate over time, modeling realistic environments where external factors like drug concentration or nutrient availability change periodically. We examine the relationship between growth rate and the period of these fluctuations, comparing the results to time-independent cases.
 
