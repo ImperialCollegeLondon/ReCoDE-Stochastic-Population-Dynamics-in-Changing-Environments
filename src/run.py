@@ -5,7 +5,16 @@ import seaborn as sns
 from utils import cos_sample, exponential_lifetime, fixed_lifetime
 from simulation import Simulation
 from sklearn.linear_model import LinearRegression
-from plots import plot_population_dynamics, log_population_regression, compare_multi_runs
+from plots import plot_population_dynamics, log_population_regression, compare_multi_runs, plot_distribution
+
+def set_seed(seed: int) -> None:
+    """
+    Sets the random seed for reproducibility.
+
+    Args:
+        seed (int): The seed value to set.
+    """
+    np.random.seed(seed)
 
 def single_run(epoch: int, division_func: callable, lifetime_func: callable) -> Simulation:
     """
