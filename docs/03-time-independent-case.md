@@ -68,7 +68,23 @@ The distributions of $ \beta $ and $ \alpha $ are analyzed:
 
 ### Regression Interpretation:
 The slope $ \beta $ reflects the rate of increase in division times as the population grows, while the intercept $ \alpha $ represents the baseline division time.
+Analysis Method Overview
+We analyze the stochastic birth-death process using linear regression to study the relationship between division times and logarithmic cell count. The regression model is given by:
 
+$$
+t_{\mathrm{div}}=\beta \log (N-1)+\alpha
+$$
+
+where:
+- $t_{\text {div }}$ is the division time,
+- $N$ is the total number of cells,
+- $\beta$ (slope) represents the growth rate $k$,
+- $\alpha$ (intercept) represents the effective initial population size parameter $b$.
+
+We estimate $\beta$ and $\alpha$ using least squares regression, fitting the observed division times to the logarithm of cell count.
+
+To study variability, we use Monte Carlo simulations, running multiple trials to compute the mean and variance of $k$ 
+and $b$. By comparing time-dependent and time-independent division and death rates, we determine their influence on growth dynamics, concluding that division rates have a stronger effect on population growth than death rates.
 ---
 
 ## Conclusion
