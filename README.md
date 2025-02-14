@@ -50,6 +50,15 @@ This project explores the mathematical modeling of cell population dynamics usin
 
 <!-- Change this to your License. Make sure you have added the file on GitHub -->
 
+
+## MkDocs Documentation
+To generate local documentation, run the following command:
+
+```sh
+mkdocs serve
+```
+
+
 ## License
 
 This project is licensed under the [BSD-3-Clause license](LICENSE.md)
