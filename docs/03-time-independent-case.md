@@ -6,12 +6,12 @@ This code simulates a **stochastic birth-death process**, where individual cells
 ## Mathematical Framework
 
 ### 1. **Cell Representation**
-Each cell is represented as a vector:
-$$
-\text{cell} = [\text{id}, t_{\text{born}}, t_{\text{div}}, \text{is\_alive}],
-$$
+
+Each cell is represented as a dataclass:
+
 where:
-- $\text{id}$: Unique identifier for the cell.
+- $ \text{id} $: Unique identifier for the cell.
+
 - $ t_{\text{born}} $: The time at which the cell was created (birth time).
 - $ t_{\text{div}} $: The time at which the cell is expected to divide.
 - $ \text{is\_alive} $: Boolean indicating whether the cell is active ($ \text{True} $) or inactive ($ \text{False} $).
@@ -30,24 +30,14 @@ $$
 \mathbb{E}[t_{\text{sample}}] = k \theta, \quad \text{Var}[t_{\text{sample}}] = k \theta^2.
 $$
 
-### 3. **Division Process**
-A single cell undergoes the following steps during division:
-1. **Deactivation:** The parent cell is marked as inactive ($ \text{is\_alive} = \text{False} $).
-2. **Creation of Daughter Cells:**
-   - Two daughter cells are created with unique IDs.
-   - Their division times are set as:
-     $$
-     t_{\text{div}, \text{daughter}} = t_{\text{div}, \text{parent}} + t_{\text{sample}},
-     $$
-     where $ t_{\text{sample}} $ is sampled from the gamma distribution.
+### 3. **Simulation Algorithm**
 
-### 4. **Simulation Algorithm**
 The process begins with a single cell at $ t_{\text{born}} = 0 $. At each step:
 1. Identify the cell with the earliest division time $ t_{\text{next}} $.
 2. Divide the selected cell, creating two daughter cells.
 3. Repeat the process for a fixed number of iterations.
 
-### 5. **Analysis of Division Times**
+### 4. **Analysis of Division Times**
 The simulation outputs the division times of all cells. For analysis:
 - Division times are sorted in ascending order:
   $$
@@ -63,12 +53,13 @@ where:
 - $ \beta $: Slope (regression coefficient).
 - $ \alpha $: Intercept.
 
-### 6. **Monte Carlo Simulation**
+### 5. **Monte Carlo Simulation**
 To study variability in the regression parameters:
 - The simulation is repeated $ 1000 $ times.
 - For each run, the regression coefficients ($ \beta $) and intercepts ($ \alpha $) are stored.
 
-### 7. **Statistical Output**
+### 6. **Statistical Output**
+
 The distributions of $ \beta $ and $ \alpha $ are analyzed:
 - Histograms of $ \beta $ illustrate the variability in the growth rate of division times.
 - A compressed NumPy file stores the coefficients and intercepts for further analysis.
@@ -82,7 +73,21 @@ The distributions of $ \beta $ and $ \alpha $ are analyzed:
 ### Regression Interpretation:
 The slope $ \beta $ reflects the rate of increase in division times as the population grows, while the intercept $ \alpha $ represents the baseline division time.
 
----
+Analysis Method Overview
+We analyze the stochastic birth-death process using linear regression to study the relationship between division times and logarithmic cell count. The regression model is given by:
+
+$$
+t_{\mathrm{div}}=\beta \log (N-1)+\alpha
+$$
+
+where:
+- $t_{\text {div }}$ is the division time,
+- $N$ is the total number of cells,
+- $\beta$ (slope) represents the growth rate $k$,
+- $\alpha$ (intercept) represents the effective initial population size parameter $b$.
+
+We estimate $\beta$ and $\alpha$ using least squares regression, fitting the observed division times to the logarithm of cell count.
+
 
 ## Conclusion
 This simulation provides a detailed mathematical model for understanding cell division dynamics in a stochastic setting. The use of gamma distributions for division times introduces variability, mimicking real biological systems. By analyzing the relationship between division times and cell count, the model offers insights into the temporal evolution of the system.
