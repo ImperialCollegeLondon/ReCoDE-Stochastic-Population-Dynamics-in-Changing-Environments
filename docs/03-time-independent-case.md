@@ -1,4 +1,4 @@
-# Mathematical Description of the Stochastic Birth-Death Process Modeled in Code
+# Numerics method
 
 ## Overview
 This code simulates a **stochastic birth-death process**, where individual cells undergo division over time. The division process follows a probabilistic model, with division times sampled from a gamma distribution. The process includes the generation of new cells (birth) and the deactivation of parent cells post-division (death). The primary objective is to study the dynamics of this process, specifically the relationship between division times and the logarithm of cell count.
@@ -14,7 +14,7 @@ where:
 
 - $ t_{\text{born}} $: The time at which the cell was created (birth time).
 - $ t_{\text{div}} $: The time at which the cell is expected to divide.
-- $ \text{is\_alive} $: Boolean indicating whether the cell is active ($ \text{True} $) or inactive ($ \text{False} $).
+- $ \text{is_alive} $: Boolean indicating whether the cell is active ($ \text{True} $) or inactive ($ \text{False} $).
 
 ### 2. **Division Time Sampling**
 The division time for a new cell is sampled from a **gamma distribution**:
@@ -40,23 +40,20 @@ The process begins with a single cell at $ t_{\text{born}} = 0 $. At each step:
 ### 4. **Analysis of Division Times**
 The simulation outputs the division times of all cells. For analysis:
 - Division times are sorted in ascending order:
-  $$
-  t_{\text{div}, 1}, t_{\text{div}, 2}, \dots, t_{\text{div}, N}.
-  $$
+  $$t_{\text{div}, 1}, t_{\text{div}, 2}, \dots, t_{\text{div}, N}$$
 - A linear regression is performed on the relationship between $ \log(N-1) $ (logarithm of rank) and $ t_{\text{div}} $.
 
 #### Regression Model:
-$$
-t_{\text{div}} = \beta \log(N-1) + \alpha,
-$$
+$$t_{\text{div}} = \beta \log(N-1) + \alpha$$
+
 where:
-- $ \beta $: Slope (regression coefficient).
-- $ \alpha $: Intercept.
+- $\beta$: Slope (regression coefficient).
+- $\alpha$: Intercept.
 
 ### 5. **Monte Carlo Simulation**
 To study variability in the regression parameters:
 - The simulation is repeated $ 1000 $ times.
-- For each run, the regression coefficients ($ \beta $) and intercepts ($ \alpha $) are stored.
+- For each run, the regression coefficients $\beta$ and intercepts $\alpha$ are stored.
 
 ### 6. **Statistical Output**
 
