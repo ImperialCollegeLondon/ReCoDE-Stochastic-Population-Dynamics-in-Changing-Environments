@@ -7,80 +7,80 @@ This code simulates a **stochastic birth-death process**, where individual cells
 
 ### 1. **Cell Representation**
 Each cell is represented as a vector:
-\[
+$$
 \text{cell} = [\text{id}, t_{\text{born}}, t_{\text{div}}, \text{is\_alive}],
-\]
+$$
 where:
-- \( \text{id} \): Unique identifier for the cell.
-- \( t_{\text{born}} \): The time at which the cell was created (birth time).
-- \( t_{\text{div}} \): The time at which the cell is expected to divide.
-- \( \text{is\_alive} \): Boolean indicating whether the cell is active (\( \text{True} \)) or inactive (\( \text{False} \)).
+- $\text{id}$: Unique identifier for the cell.
+- $ t_{\text{born}} $: The time at which the cell was created (birth time).
+- $ t_{\text{div}} $: The time at which the cell is expected to divide.
+- $ \text{is\_alive} $: Boolean indicating whether the cell is active ($ \text{True} $) or inactive ($ \text{False} $).
 
 ### 2. **Division Time Sampling**
 The division time for a new cell is sampled from a **gamma distribution**:
-\[
+$$
 t_{\text{sample}} \sim \text{Gamma}(k, \theta),
-\]
+$$
 where:
-- \( k = 5 \): Shape parameter.
-- \( \theta = 1 \): Scale parameter.
+- $ k = 5 $: Shape parameter.
+- $ \theta = 1 $: Scale parameter.
 
 The expected value and variance of the gamma distribution are:
-\[
+$$
 \mathbb{E}[t_{\text{sample}}] = k \theta, \quad \text{Var}[t_{\text{sample}}] = k \theta^2.
-\]
+$$
 
 ### 3. **Division Process**
 A single cell undergoes the following steps during division:
-1. **Deactivation:** The parent cell is marked as inactive (\( \text{is\_alive} = \text{False} \)).
+1. **Deactivation:** The parent cell is marked as inactive ($ \text{is\_alive} = \text{False} $).
 2. **Creation of Daughter Cells:**
    - Two daughter cells are created with unique IDs.
    - Their division times are set as:
-     \[
+     $$
      t_{\text{div}, \text{daughter}} = t_{\text{div}, \text{parent}} + t_{\text{sample}},
-     \]
-     where \( t_{\text{sample}} \) is sampled from the gamma distribution.
+     $$
+     where $ t_{\text{sample}} $ is sampled from the gamma distribution.
 
 ### 4. **Simulation Algorithm**
-The process begins with a single cell at \( t_{\text{born}} = 0 \). At each step:
-1. Identify the cell with the earliest division time \( t_{\text{next}} \).
+The process begins with a single cell at $ t_{\text{born}} = 0 $. At each step:
+1. Identify the cell with the earliest division time $ t_{\text{next}} $.
 2. Divide the selected cell, creating two daughter cells.
 3. Repeat the process for a fixed number of iterations.
 
 ### 5. **Analysis of Division Times**
 The simulation outputs the division times of all cells. For analysis:
 - Division times are sorted in ascending order:
-  \[
+  $$
   t_{\text{div}, 1}, t_{\text{div}, 2}, \dots, t_{\text{div}, N}.
-  \]
-- A linear regression is performed on the relationship between \( \log(N-1) \) (logarithm of rank) and \( t_{\text{div}} \).
+  $$
+- A linear regression is performed on the relationship between $ \log(N-1) $ (logarithm of rank) and $ t_{\text{div}} $.
 
 #### Regression Model:
-\[
+$$
 t_{\text{div}} = \beta \log(N-1) + \alpha,
-\]
+$$
 where:
-- \( \beta \): Slope (regression coefficient).
-- \( \alpha \): Intercept.
+- $ \beta $: Slope (regression coefficient).
+- $ \alpha $: Intercept.
 
 ### 6. **Monte Carlo Simulation**
 To study variability in the regression parameters:
-- The simulation is repeated \( 1000 \) times.
-- For each run, the regression coefficients (\( \beta \)) and intercepts (\( \alpha \)) are stored.
+- The simulation is repeated $ 1000 $ times.
+- For each run, the regression coefficients ($ \beta $) and intercepts ($ \alpha $) are stored.
 
 ### 7. **Statistical Output**
-The distributions of \( \beta \) and \( \alpha \) are analyzed:
-- Histograms of \( \beta \) illustrate the variability in the growth rate of division times.
+The distributions of $ \beta $ and $ \alpha $ are analyzed:
+- Histograms of $ \beta $ illustrate the variability in the growth rate of division times.
 - A compressed NumPy file stores the coefficients and intercepts for further analysis.
 
 ## Mathematical Results
 
 ### Key Observations:
 1. The stochastic birth-death process results in an exponentially increasing number of cells over time.
-2. The relationship between division times (\( t_{\text{div}} \)) and logarithm of rank (\( \log(N-1) \)) is approximately linear for sufficiently large \( N \), as suggested by the regression model.
+2. The relationship between division times ($ t_{\text{div}} $) and logarithm of rank ($ \log(N-1) $) is approximately linear for sufficiently large $ N $, as suggested by the regression model.
 
 ### Regression Interpretation:
-The slope \( \beta \) reflects the rate of increase in division times as the population grows, while the intercept \( \alpha \) represents the baseline division time.
+The slope $ \beta $ reflects the rate of increase in division times as the population grows, while the intercept $ \alpha $ represents the baseline division time.
 
 ---
 
