@@ -19,9 +19,6 @@ jobs:
         with:
           python-version: '3.x'
 
-      - name: Install nbconvert
-        run: pip install nbconvert
-
       - name: Link Checker
         id: lychee
         uses: lycheeverse/lychee-action@v2
