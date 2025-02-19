@@ -6,10 +6,12 @@ This code simulates a **stochastic birth-death process**, where individual cells
 ## Mathematical Framework
 
 ### 1. **Cell Representation**
+
 Each cell is represented as a dataclass:
 
 where:
 - $ \text{id} $: Unique identifier for the cell.
+
 - $ t_{\text{born}} $: The time at which the cell was created (birth time).
 - $ t_{\text{div}} $: The time at which the cell is expected to divide.
 - $ \text{is\_alive} $: Boolean indicating whether the cell is active ($ \text{True} $) or inactive ($ \text{False} $).
@@ -29,6 +31,7 @@ $$
 $$
 
 ### 3. **Simulation Algorithm**
+
 The process begins with a single cell at $ t_{\text{born}} = 0 $. At each step:
 1. Identify the cell with the earliest division time $ t_{\text{next}} $.
 2. Divide the selected cell, creating two daughter cells.
@@ -56,6 +59,7 @@ To study variability in the regression parameters:
 - For each run, the regression coefficients ($ \beta $) and intercepts ($ \alpha $) are stored.
 
 ### 6. **Statistical Output**
+
 The distributions of $ \beta $ and $ \alpha $ are analyzed:
 - Histograms of $ \beta $ illustrate the variability in the growth rate of division times.
 - A compressed NumPy file stores the coefficients and intercepts for further analysis.
@@ -68,6 +72,7 @@ The distributions of $ \beta $ and $ \alpha $ are analyzed:
 
 ### Regression Interpretation:
 The slope $ \beta $ reflects the rate of increase in division times as the population grows, while the intercept $ \alpha $ represents the baseline division time.
+
 Analysis Method Overview
 We analyze the stochastic birth-death process using linear regression to study the relationship between division times and logarithmic cell count. The regression model is given by:
 
@@ -83,9 +88,6 @@ where:
 
 We estimate $\beta$ and $\alpha$ using least squares regression, fitting the observed division times to the logarithm of cell count.
 
-To study variability, we use Monte Carlo simulations, running multiple trials to compute the mean and variance of $k$ 
-and $b$. By comparing time-dependent and time-independent division and death rates, we determine their influence on growth dynamics, concluding that division rates have a stronger effect on population growth than death rates.
----
 
 ## Conclusion
 This simulation provides a detailed mathematical model for understanding cell division dynamics in a stochastic setting. The use of gamma distributions for division times introduces variability, mimicking real biological systems. By analyzing the relationship between division times and cell count, the model offers insights into the temporal evolution of the system.
