@@ -52,6 +52,7 @@ def log_population_regression(sim: Simulation) -> None:
     plt.title("Log-Transformed Population Dynamics with Regression Line", fontsize=16)
     plt.xlabel("Time", fontsize=14)
     plt.ylabel("Log(Number of Alive Cells)", fontsize=14)
+    plt.tight_layout()
     plt.show()
 
 
