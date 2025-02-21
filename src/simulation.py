@@ -15,7 +15,7 @@ class Simulation:
             division_func (Callable[[float], float]): Function to calculate the division time of a cell.
             lifetime_func (Callable[[float], float]): Function to calculate the lifetime of a cell.
         """
-        first_cell = init_normal_cell(0, 0, lifetime_func, division_func)
+        first_cell = init_normal_cell(0, lifetime_func, division_func)
         self.name: str = name
         self.cells: List[Cell] = [first_cell]  # List of all cells
         self.log: List[Dict[str, object]] = []  # Event log
@@ -58,14 +58,12 @@ class Simulation:
         division_time = cell.division_time
 
         new_cell1 = init_normal_cell(
-            cell_id=len(self.cells),
             born_time=division_time,
             life_time_func=self.lifetime_func,
             division_time_func=self.division_func
         )
 
         new_cell2 = init_normal_cell(
-            cell_id=len(self.cells) + 1,
             born_time=division_time,
             life_time_func=self.lifetime_func,
             division_time_func=self.division_func
@@ -73,18 +71,16 @@ class Simulation:
 
         self.cells.extend([new_cell1, new_cell2])
 
-    def log_event(self, time: float, cell_id: int, operation: str) -> None:
+    def log_event(self, time: float, operation: str) -> None:
         """
         Logs an event (division or death) in the simulation.
 
         Args:
             time (float): The time at which the event occurred.
-            cell_id (int): The ID of the cell involved in the event.
             operation (str): The type of event ('division' or 'death').
         """
         self.log.append({
             "time": time,
-            "cell_id": cell_id,
             "operation": operation
         })
 
@@ -127,10 +123,10 @@ class Simulation:
             return  # No events left to process
         if operation == "death":
             deactivate_cell(next_cell)
-            self.log_event(next_time, next_cell.cell_id, "death")
+            self.log_event(next_time, "death")
         elif operation == "division":
             self.divide(next_cell)
-            self.log_event(next_time, next_cell.cell_id, "division")
+            self.log_event(next_time, "division")
 
     def get_time_population_curve(self) -> List[List[float]]:
         """
