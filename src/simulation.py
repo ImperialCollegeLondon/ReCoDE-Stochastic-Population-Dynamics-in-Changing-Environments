@@ -101,9 +101,6 @@ class Simulation:
         operation = "pass"
 
         for i_cell_live, cell in enumerate(self.live_cells):
-            if not cell.is_alive:
-                continue
-
             # Check death time
             if cell.life_time < next_time:
                 next_time = cell.life_time
