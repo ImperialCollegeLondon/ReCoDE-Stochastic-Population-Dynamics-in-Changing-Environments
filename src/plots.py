@@ -1,4 +1,3 @@
-from typing import Tuple
 from simulation import Simulation
 import numpy as np
 import matplotlib.pyplot as plt
@@ -47,12 +46,12 @@ def log_population_regression(sim: Simulation) -> None:
     data = pd.DataFrame({"time": times, "log_population": log_population})
 
     # Plot
-    plt.figure(figsize=(16, 9))
     sns.lmplot(x="time", y="log_population", data=data, height=8)
     plt.grid(alpha=0.5)
     plt.title("Log-Transformed Population Dynamics with Regression Line", fontsize=16)
     plt.xlabel("Time", fontsize=14)
     plt.ylabel("Log(Number of Alive Cells)", fontsize=14)
+    plt.tight_layout()
     plt.show()
 
 

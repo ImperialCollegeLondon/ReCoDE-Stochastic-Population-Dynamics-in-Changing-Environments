@@ -1,7 +1,5 @@
 import numpy as np
 from scipy.stats import gamma
-import numpy as np
-from scipy.stats import gamma
 
 def uniform_sample(born_time: float) -> float:
     """
