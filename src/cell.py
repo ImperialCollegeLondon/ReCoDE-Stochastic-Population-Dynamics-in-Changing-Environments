@@ -71,7 +71,7 @@ class Cell:
         """
         # try 100 times until the lifetime is greater than the division time
         for _ in range(100):
-            cell = init_normal_cell(born_time, life_time_func, division_time_func)
+            cell = Cell.init_normal_cell(born_time, life_time_func, division_time_func)
             if cell.life_time > cell.division_time:
                 return cell
         raise RuntimeWarning("Failed to create cell with lifetime > division time. check the sampling functions.")
