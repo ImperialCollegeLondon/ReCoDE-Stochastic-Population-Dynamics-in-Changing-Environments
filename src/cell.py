@@ -1,3 +1,5 @@
+
+from __future__ import annotations
 from dataclasses import dataclass
 
 @dataclass
@@ -9,7 +11,7 @@ class Cell:
     will_divide: bool
 
     @classmethod
-    def init_immortal_cell(cls: Cell, born_time: float, division_time_func) -> Cell:
+    def init_immortal_cell(cls, born_time: float, division_time_func) -> Cell:
         """
         Initializes an immortal cell with its properties.
 
@@ -22,7 +24,7 @@ class Cell:
         """
         division_time = born_time + division_time_func(born_time)
 
-        return Cell(
+        return cls(
             born_time=born_time,
             life_time=float("inf"),
             division_time=division_time,
@@ -31,7 +33,7 @@ class Cell:
         )
 
     @classmethod
-    def init_normal_cell(cls: Cell, born_time: float, life_time_func, division_time_func) -> Cell:
+    def init_normal_cell(cls, born_time: float, life_time_func, division_time_func) -> Cell:
         """
         Initializes a cell with its properties.
 
@@ -46,7 +48,7 @@ class Cell:
         life_time = born_time + life_time_func(born_time)
         division_time = born_time + division_time_func(born_time)
 
-        return Cell(
+        return cls(
             born_time=born_time,
             life_time=life_time,
             division_time=division_time,
@@ -55,7 +57,7 @@ class Cell:
         )
 
     @classmethod
-    def init_dividable_cell(cls: Cell, born_time: float, life_time_func, division_time_func):
+    def init_dividable_cell(cls, born_time: float, life_time_func, division_time_func) -> Cell:
         """
         Initializes a cell with its properties, allowing division only if lifetime is greater than division time.
 
