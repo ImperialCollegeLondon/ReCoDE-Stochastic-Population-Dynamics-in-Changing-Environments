@@ -1,4 +1,4 @@
-from cells_manager import init_normal_cell, deactivate_cell, Cell
+from cells_manager import Cell, CellsManager
 from typing import Callable, List, Tuple, Dict
 
 class Simulation:
@@ -15,7 +15,8 @@ class Simulation:
             division_func (Callable[[float], float]): Function to calculate the division time of a cell.
             lifetime_func (Callable[[float], float]): Function to calculate the lifetime of a cell.
         """
-        first_cell = init_normal_cell(0, 0, lifetime_func, division_func)
+        self.cm = CellsManager()
+        first_cell = self.cm.init_normal_cell(0, 0, lifetime_func, division_func)
         self.name: str = name
         self.cells: List[Cell] = [first_cell]  # List of all cells
         self.log: List[Dict[str, object]] = []  # Event log
@@ -54,17 +55,17 @@ class Simulation:
         Args:
             cell (object): The cell that is dividing.
         """
-        deactivate_cell(cell)
+        self.cm.deactivate_cell(cell)
         division_time = cell.division_time
 
-        new_cell1 = init_normal_cell(
+        new_cell1 = self.cm.init_normal_cell(
             cell_id=len(self.cells),
             born_time=division_time,
             life_time_func=self.lifetime_func,
             division_time_func=self.division_func
         )
 
-        new_cell2 = init_normal_cell(
+        new_cell2 = self.cm.init_normal_cell(
             cell_id=len(self.cells) + 1,
             born_time=division_time,
             life_time_func=self.lifetime_func,
@@ -126,7 +127,7 @@ class Simulation:
         if operation == "pass":
             return  # No events left to process
         if operation == "death":
-            deactivate_cell(next_cell)
+            self.cm.deactivate_cell(next_cell)
             self.log_event(next_time, next_cell.cell_id, "death")
         elif operation == "division":
             self.divide(next_cell)
