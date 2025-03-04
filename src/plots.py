@@ -1,4 +1,3 @@
-from typing import Tuple
 from simulation import Simulation
 import numpy as np
 import matplotlib.pyplot as plt

@@ -1,7 +1,5 @@
 import numpy as np
-import matplotlib.pyplot as plt
 import pandas as pd
-import seaborn as sns
 from utils import cos_sample, exponential_lifetime, fixed_lifetime
 from simulation import Simulation
 from sklearn.linear_model import LinearRegression
