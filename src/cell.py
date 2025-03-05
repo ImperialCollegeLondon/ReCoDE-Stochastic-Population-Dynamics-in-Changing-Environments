@@ -11,7 +11,7 @@ class Cell:
     will_divide: bool
 
     @classmethod
-    def init_immortal_cell(cls, born_time: float, division_time_func) -> Cell:
+    def init_immortal_cell(cls, born_time: float, division_time_func: Callable) -> Cell:
         """Initializes an immortal cell with its properties.
 
         Args:
