@@ -11,15 +11,14 @@ class Cell:
 
     @classmethod
     def init_immortal_cell(cls, born_time: float, division_time_func) -> Cell:
-        """
-        Initializes an immortal cell with its properties.
+        """Initializes an immortal cell with its properties.
 
-        Parameters:
-        born_time (float): Time when the cell is created.
-        division_time_func (function): Function to calculate the division time of the cell.
+        Args:
+            born_time: Time when the cell is created.
+            division_time_func: Function to calculate the division time of the cell.
 
         Returns:
-        Cell object: A dataclass object representing the cell.
+            A dataclass object representing the cell.
         """
         division_time = born_time + division_time_func(born_time)
 
