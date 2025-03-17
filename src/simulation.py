@@ -15,9 +15,10 @@ class Simulation:
             division_func (Callable[[float], float]): Function to calculate the division time of a cell.
             lifetime_func (Callable[[float], float]): Function to calculate the lifetime of a cell.
         """
-        first_cell = init_normal_cell(0, 0, lifetime_func, division_func)
+        first_cell = init_normal_cell(0, lifetime_func, division_func)
         self.name: str = name
-        self.cells: List[Cell] = [first_cell]  # List of all cells
+        self.live_cells: List[Cell] = [first_cell]  # List of living cells
+        self.dead_cells: List[Cell] = [] # List of dead cells
         self.log: List[Dict[str, object]] = []  # Event log
         self.division_func: Callable[[float], float] = division_func
         self.lifetime_func: Callable[[float], float] = lifetime_func
@@ -47,44 +48,42 @@ class Simulation:
         """
         return time + self.lifetime_func(time)
 
-    def divide(self, cell: Cell) -> None:
+    def divide(self, i_next_cell: int, cell: Cell) -> None:
         """
         Handles the division of a cell by deactivating it and creating two new daughter cells.
 
         Args:
+            i_next_cell (int): Index of the cell in the list of live cells.
             cell (object): The cell that is dividing.
         """
         deactivate_cell(cell)
+        self.dead_cells.append(self.live_cells.pop(i_next_cell))
         division_time = cell.division_time
 
         new_cell1 = init_normal_cell(
-            cell_id=len(self.cells),
             born_time=division_time,
             life_time_func=self.lifetime_func,
             division_time_func=self.division_func
         )
 
         new_cell2 = init_normal_cell(
-            cell_id=len(self.cells) + 1,
             born_time=division_time,
             life_time_func=self.lifetime_func,
             division_time_func=self.division_func
         )
 
-        self.cells.extend([new_cell1, new_cell2])
+        self.live_cells.extend([new_cell1, new_cell2])
 
-    def log_event(self, time: float, cell_id: int, operation: str) -> None:
+    def log_event(self, time: float, operation: str) -> None:
         """
         Logs an event (division or death) in the simulation.
 
         Args:
             time (float): The time at which the event occurred.
-            cell_id (int): The ID of the cell involved in the event.
             operation (str): The type of event ('division' or 'death').
         """
         self.log.append({
             "time": time,
-            "cell_id": cell_id,
             "operation": operation
         })
 
@@ -93,44 +92,46 @@ class Simulation:
         Finds the next event (division or death) and the cell associated with it.
 
         Returns:
-            Tuple[float, Cell, str]: The time of the event, the cell involved, and the type of event.
+            Tuple[float, int, Cell, str]: The time of the event, the index of the cell involved,
+            the cell involved, and the type of event.
         """
         next_time = float("inf")
+        i_next_cell = None
         next_cell = None
         operation = "pass"
 
-        for cell in self.cells:
-            if not cell.is_alive:
-                continue
-
+        for i_cell_live, cell in enumerate(self.live_cells):
             # Check death time
             if cell.life_time < next_time:
                 next_time = cell.life_time
+                i_next_cell = i_cell_live
                 next_cell = cell
                 operation = "death"
 
             # Check division time
             if cell.will_divide and cell.division_time < next_time:
                 next_time = cell.division_time
+                i_next_cell = i_cell_live
                 next_cell = cell
                 operation = "division"
 
-        return next_time, next_cell, operation
+        return next_time, i_next_cell, next_cell, operation
 
     def run(self) -> None:
         """
         Executes one step of the simulation by processing the next event.
         """
         self.epoch += 1
-        next_time, next_cell, operation = self.find_next_event()
+        next_time, i_next_cell, next_cell, operation = self.find_next_event()
         if operation == "pass":
             return  # No events left to process
         if operation == "death":
             deactivate_cell(next_cell)
-            self.log_event(next_time, next_cell.cell_id, "death")
+            self.dead_cells.append(self.live_cells.pop(i_next_cell))
+            self.log_event(next_time, "death")
         elif operation == "division":
-            self.divide(next_cell)
-            self.log_event(next_time, next_cell.cell_id, "division")
+            self.divide(i_next_cell, next_cell)
+            self.log_event(next_time, "division")
 
     def get_time_population_curve(self) -> List[List[float]]:
         """
