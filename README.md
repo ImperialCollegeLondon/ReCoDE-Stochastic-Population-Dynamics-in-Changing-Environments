@@ -1,4 +1,4 @@
-# Cell Population Dynamics Project
+# Cell Population Dynamics in Continuous Time Domain
 
 ## Description
 
