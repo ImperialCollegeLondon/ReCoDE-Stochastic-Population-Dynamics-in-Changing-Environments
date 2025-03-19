@@ -1,4 +1,4 @@
-from cells_manager import init_normal_cell, deactivate_cell, Cell
+from cell import deactivate_cell, Cell
 from typing import Callable, List, Tuple, Dict
 
 class Simulation:
@@ -15,7 +15,7 @@ class Simulation:
             division_func (Callable[[float], float]): Function to calculate the division time of a cell.
             lifetime_func (Callable[[float], float]): Function to calculate the lifetime of a cell.
         """
-        first_cell = init_normal_cell(0, lifetime_func, division_func)
+        first_cell = Cell.init_normal_cell(0, lifetime_func, division_func)
         self.name: str = name
         self.live_cells: List[Cell] = [first_cell]  # List of living cells
         self.dead_cells: List[Cell] = [] # List of dead cells
@@ -60,13 +60,13 @@ class Simulation:
         self.dead_cells.append(self.live_cells.pop(i_next_cell))
         division_time = cell.division_time
 
-        new_cell1 = init_normal_cell(
+        new_cell1 = Cell.init_normal_cell(
             born_time=division_time,
             life_time_func=self.lifetime_func,
             division_time_func=self.division_func
         )
 
-        new_cell2 = init_normal_cell(
+        new_cell2 = Cell.init_normal_cell(
             born_time=division_time,
             life_time_func=self.lifetime_func,
             division_time_func=self.division_func
