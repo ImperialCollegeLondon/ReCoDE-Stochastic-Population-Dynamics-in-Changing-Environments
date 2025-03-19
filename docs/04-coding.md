@@ -5,8 +5,8 @@
 The simulation code for cell population dynamics employs several design patterns to enhance modularity, extensibility, and maintainability. Here are the key design patterns used in the implementation:
 
 ### 1. Factory Method Pattern (Cell Initialization)
-- The Cell_Manager act as factory methods to create/disactive different types of cell objects.
-- Instead of directly instantiating Cell objects in multiple places, these factory functions ensure consistent initialization logic.
+- The `Cell` class contains the methods `init_immortal_cell`, `init_dividable_cell` and `deactivate_cell` which create instances of the `Cell` class with some aspects pre-defined as a part of the method. 
+- This sort of method is known as a factory method, and makes the creation of instances of the `Cell` class more convenient and easier to understand and ensures consistent initialization logic.
 ### 2. Strategy Pattern (Customizable Functions for Lifetime and Division)
 - The simulation class takes `division_func` and `lifetime_func` as parameters.
 - This allows the user to plug in different strategies for computing division and lifetime, making the simulation flexible without modifying core logic.
