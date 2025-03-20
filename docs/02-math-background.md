@@ -1,4 +1,4 @@
-# Mathematical Introduction to the Simulation Method
+# Mathematical Theory
 
 To model the stochastic dynamics of cell populations under time-dependent division and death rates, we require a rigorous mathematical framework. Here, we address the challenges and methods used to simulate such systems in continuous time.
 

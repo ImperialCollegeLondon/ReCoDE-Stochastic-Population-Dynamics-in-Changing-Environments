@@ -20,8 +20,8 @@ This project explores the mathematical modeling of cell population dynamics usin
 ### System
 
 - Python 3.11 or newer
-- Anaconda (recommended for managing dependencies)
 - MkDocs for documentation generation
+- Miniconda (recommended for managing dependencies)
 
 ## Getting Started
 
@@ -31,18 +31,21 @@ This project explores the mathematical modeling of cell population dynamics usin
    conda create --name cell-population-dynamics python=3.11
    conda activate cell-population-dynamics
    pip install -r requirements.txt
-
+   ```
+   
 ## Project Structure
 
 ```log
 .
 ├── docs
+├── notebooks
 ├── src
-|   ├── cells_manage.py
-|   ├── src_time_independent.py
-|   ├── run_in.py
-│   └── utils
-├── app
+│   ├── __init__.py
+|   ├── cells_manager.py   # Cell population manager
+|   ├── plots.py           # Plotting functions
+|   ├── run.py             # Main script to run the simulation
+|   ├── simulation.py      # Core simulation logic
+│   └── utils.py           # Utility functions
 ├── mkdocs.yml
 ├── requirements.txt
 └── README.md

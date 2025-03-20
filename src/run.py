@@ -94,6 +94,9 @@ def extract_regression_results(simulations):
 
 # Main execution
 if __name__ == "__main__":
+    # random seed
+    set_seed(99)
+
     # Define division and lifetime functions
     division_func = lambda x: exponential_lifetime(x, mean_lifetime=5.0)
     lifetime_func = lambda x: exponential_lifetime(x, mean_lifetime=15.0)
