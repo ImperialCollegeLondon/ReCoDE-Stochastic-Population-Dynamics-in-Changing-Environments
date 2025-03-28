@@ -10,11 +10,13 @@ This code simulates a **stochastic birth-death process**, where individual cells
 Each cell is represented as a dataclass:
 
 where:
-- $ \text{id} $: Unique identifier for the cell.
+- `id`: Unique identifier for the cell.
 
-- $ t_{\text{born}} $ : The time at which the cell was created (birth time).
-- $ t_{\text{div}} $ : The time at which the cell is expected to divide.
-- $ \text{is_alive} $ : Boolean indicating whether the cell is active ($ \text{True} $) or inactive ($ \text{False} $).
+- `born_time`: The time $ t_{\text{born}} $  at which the cell was created (birth time).
+- `life_time`: The time at which the cell will die.
+- `division_time`: The time $ t_{\text{div}} $ at which the cell is expected to divide.
+- `is_alive`: Boolean indicating whether the cell is active (`True`) or inactive (`False`).
+- `will_divide`: Boolean indicating if the cell will divide before it dies (`True`) or not (`False`).
 
 ### 2. **Division Time Sampling**
 The division time for a new cell is sampled from a **gamma distribution**:
@@ -69,10 +71,10 @@ The distributions of $ \beta $ and $ \alpha $ are analyzed:
 
 ### Key Observations:
 1. The stochastic birth-death process results in an exponentially increasing number of cells over time.
-2. The relationship between division times ($ t_{\text{div}} $) and logarithm of rank ($ \log(N-1) $) is approximately linear for sufficiently large $ N $, as suggested by the regression model.
+2. The relationship between division times $t_{\text{div}}$ and logarithm of rank $\log(N-1)$ is approximately linear for sufficiently large $N$, as suggested by the regression model.
 
 ### Regression Interpretation:
-The slope $ \beta $ reflects the rate of increase in division times as the population grows, while the intercept $ \alpha $ represents the baseline division time.
+The slope $\beta$ reflects the rate of increase in division times as the population grows, while the intercept $ \alpha $ represents the baseline division time.
 
 Analysis Method Overview
 We analyze the stochastic birth-death process using linear regression to study the relationship between division times and logarithmic cell count. The regression model is given by:
