@@ -49,7 +49,7 @@ The simulation outputs the division times of all cells. For analysis:
   t_{\text{div}, 1}, t_{\text{div}, 2}, \dots, t_{\text{div}, N}
   $$
   
-A linear regression is performed on the relationship between $ \log(N-1) $ (logarithm of rank) and $ t_{\text{div}} $.
+- A linear regression is performed on the relationship between $ \log(N-1) $ (logarithm of rank) and $ t_{\text{div}} $.
 
 #### Regression Model:
 $$t_{\text{div}} = \beta \log(N-1) + \alpha$$
