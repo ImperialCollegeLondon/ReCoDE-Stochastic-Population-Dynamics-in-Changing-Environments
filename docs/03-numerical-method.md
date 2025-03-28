@@ -24,6 +24,7 @@ $$
 t_{\text{sample}} \sim \text{Gamma}(k, \theta),
 $$
 where:
+
 * $ k = 5 $: Shape parameter.
 * $ \theta = 1 $: Scale parameter.
 
@@ -41,29 +42,33 @@ The process begins with a single cell at $ t_{\text{born}} = 0 $. At each step:
 
 ### 4. **Analysis of Division Times**
 The simulation outputs the division times of all cells. For analysis:
+
 - Division times are sorted in ascending order:
   
   $$
   t_{\text{div}, 1}, t_{\text{div}, 2}, \dots, t_{\text{div}, N}
   $$
   
-- A linear regression is performed on the relationship between $ \log(N-1) $ (logarithm of rank) and $ t_{\text{div}} $.
+A linear regression is performed on the relationship between $ \log(N-1) $ (logarithm of rank) and $ t_{\text{div}} $.
 
 #### Regression Model:
 $$t_{\text{div}} = \beta \log(N-1) + \alpha$$
 
 where:
+
 - $\beta$: Slope (regression coefficient).
 - $\alpha$: Intercept.
 
 ### 5. **Monte Carlo Simulation**
 To study variability in the regression parameters:
+
 - The simulation is repeated $ 1000 $ times.
 - For each run, the regression coefficients $\beta$ and intercepts $\alpha$ are stored.
 
 ### 6. **Statistical Output**
 
 The distributions of $ \beta $ and $ \alpha $ are analyzed:
+
 - Histograms of $ \beta $ illustrate the variability in the growth rate of division times.
 - A compressed NumPy file stores the coefficients and intercepts for further analysis.
 
@@ -84,6 +89,7 @@ t_{\mathrm{div}}=\beta \log (N-1)+\alpha
 $$
 
 where:
+
 * $t_{\text {div }}$ is the division time,
 * $N$ is the total number of cells,
 * $\beta$ (slope) represents the growth rate $k$,
