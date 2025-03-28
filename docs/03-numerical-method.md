@@ -84,10 +84,10 @@ t_{\mathrm{div}}=\beta \log (N-1)+\alpha
 $$
 
 where:
-- $t_{\text {div }}$ is the division time,
-- $N$ is the total number of cells,
-- $\beta$ (slope) represents the growth rate $k$,
-- $\alpha$ (intercept) represents the effective initial population size parameter $b$.
+* $t_{\text {div }}$ is the division time,
+* $N$ is the total number of cells,
+* $\beta$ (slope) represents the growth rate $k$,
+* $\alpha$ (intercept) represents the effective initial population size parameter $b$.
 
 We estimate $\beta$ and $\alpha$ using least squares regression, fitting the observed division times to the logarithm of cell count.
 
