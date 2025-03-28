@@ -24,8 +24,8 @@ $$
 t_{\text{sample}} \sim \text{Gamma}(k, \theta),
 $$
 where:
-- $ k = 5 $: Shape parameter.
-- $ \theta = 1 $: Scale parameter.
+* $ k = 5 $: Shape parameter.
+* $ \theta = 1 $: Scale parameter.
 
 The expected value and variance of the gamma distribution are:
 $$
