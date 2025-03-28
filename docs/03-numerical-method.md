@@ -10,8 +10,8 @@ This code simulates a **stochastic birth-death process**, where individual cells
 Each cell is represented as a dataclass:
 
 where:
-- `id`: Unique identifier for the cell.
 
+- `id`: Unique identifier for the cell.
 - `born_time`: The time $ t_{\text{born}} $  at which the cell was created (birth time).
 - `life_time`: The time at which the cell will die.
 - `division_time`: The time $ t_{\text{div}} $ at which the cell is expected to divide.
